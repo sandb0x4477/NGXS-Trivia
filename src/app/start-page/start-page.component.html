@@ -1,0 +1,122 @@
+<form #queryForm="ngForm">
+  <fieldset class="uk-fieldset">
+    <legend class="uk-legend uk-text-primary uk-text-center">Choose parameters</legend>
+
+    <div class="uk-margin">
+      <label class="uk-form-label" for="form-stacked-select"
+        >Number of questions: {{ query.numberOfQuests }}</label
+      >
+      <input
+        class="uk-range"
+        type="range"
+        value="3"
+        min="1"
+        max="20"
+        step="1"
+        [(ngModel)]="query.numberOfQuests"
+        name="numberOfQuests"
+        #numberOfQuests="ngModel"
+      />
+    </div>
+
+    <div class="uk-margin">
+      <label class="uk-form-label" for="form-stacked-select">Choose category</label>
+      <select class="uk-select" [(ngModel)]="query.category" name="category" #category="ngModel">
+        <option value="any">Any Category</option>
+        <option value="9">General Knowledge</option>
+        <option value="10">Entertainment: Books</option>
+        <option value="11">Entertainment: Film</option>
+        <option value="12">Entertainment: Music</option>
+        <option value="13">Entertainment: Musicals &amp; Theatres</option>
+        <option value="14">Entertainment: Television</option>
+        <option value="15">Entertainment: Video Games</option>
+        <option value="16">Entertainment: Board Games</option>
+        <option value="17">Science &amp; Nature</option>
+        <option value="18">Science: Computers</option>
+        <option value="19">Science: Mathematics</option>
+        <option value="20">Mythology</option>
+        <option value="21">Sports</option>
+        <option value="22">Geography</option>
+        <option value="23">History</option>
+        <option value="24">Politics</option>
+        <option value="25">Art</option>
+        <option value="26">Celebrities</option>
+        <option value="27">Animals</option>
+        <option value="28">Vehicles</option>
+        <option value="29">Entertainment: Comics</option>
+        <option value="30">Science: Gadgets</option>
+        <option value="31">Entertainment: Japanese Anime &amp; Manga</option>
+        <option value="32">Entertainment: Cartoon &amp; Animations</option>
+      </select>
+    </div>
+
+    <div class="uk-margin">
+      <label class="uk-form-label" for="form-stacked-select">Select difficulty</label>
+      <div class="uk-form-controls">
+        <select
+          class="uk-select"
+          id="form-stacked-select"
+          [(ngModel)]="query.difficulty"
+          name="difficulty"
+          #difficulty="ngModel"
+        >
+          <option value="any">Any Difficulty</option>
+          <option value="easy">Easy</option>
+          <option value="medium">Medium</option>
+          <option value="hard">Hard</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="uk-margin">
+      <label class="uk-form-label" for="form-stacked-select">Select type</label>
+      <div class="uk-form-controls">
+        <select
+          class="uk-select"
+          id="form-stacked-select"
+          [(ngModel)]="query.type"
+          name="type"
+          #type="ngModel"
+        >
+          <option value="any">Any Type</option>
+          <option value="multiple">Multiple Choice</option>
+          <option value="boolean">True / False</option>
+        </select>
+      </div>
+    </div>
+    <button
+      class="uk-button uk-button-primary uk-width-1-1 uk-margin-small-bottom"
+      (click)="fetchQuestions(queryForm)"
+    >
+      Start!
+    </button>
+  </fieldset>
+</form>
+
+<hr class="uk-divider-icon" />
+<div *ngFor="let question of questions; let i = index">
+
+    <h4 class="uk-text-center">
+      {{ question.question }}
+    </h4>
+
+    <div class="uk-child-width-1-1@s uk-child-width-1-2@m uk-grid-small" uk-grid>
+      <div *ngFor="let pick of question.questions_pool; let j = index" >
+        <div>
+
+          <p>
+            <button #button
+            [ngClass]="question.buttonClass[j]"
+            value="{{ pick }}"
+            name="{{ pick }}"
+            (click)="checkAnswer(question, i, j)">
+            {{ pick }}
+          </button>
+          </p>
+
+        </div>
+      </div>
+    </div>
+
+      <hr class="uk-divider-icon">
+  </div>
