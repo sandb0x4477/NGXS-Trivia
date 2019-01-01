@@ -1,16 +1,36 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { NgxsModule } from '@ngxs/store';
+import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
+import { NgxsFormPluginModule } from '@ngxs/form-plugin';
+import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';
 
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { StartPageComponent } from './start-page/start-page.component';
 import { OpenTriviaService } from './_services/open-trivia.service';
 
+import { TriviaState } from './store/trivia.state';
+import { environment } from '../environments/environment';
+import { QueryFormComponent } from './query-form/query-form.component';
+import { QfContainerComponent } from './query-form/qf-container.component';
+
 @NgModule({
-  declarations: [AppComponent, NavbarComponent, StartPageComponent],
-  imports: [BrowserModule, FormsModule, HttpClientModule],
+  declarations: [AppComponent, NavbarComponent, StartPageComponent, QueryFormComponent, QfContainerComponent],
+  imports: [
+    BrowserModule,
+    FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+    NgxsModule.forRoot([TriviaState], { developmentMode: !environment.production }),
+    NgxsStoragePluginModule.forRoot(),
+    NgxsFormPluginModule.forRoot(),
+    NgxsReduxDevtoolsPluginModule.forRoot({
+      name: 'Ngxs Trivia DevTools',
+    }),
+  ],
   providers: [OpenTriviaService],
   bootstrap: [AppComponent],
 })

@@ -1,0 +1,93 @@
+<form
+  class="uk-form-stacked uk-margin uk-grid"
+  [formGroup]="queryForm"
+  (ngSubmit)="onSubmit()"
+  *ngIf="(query$ | async) as query"
+>
+  <legend class="uk-legend uk-text-primary uk-text-center uk-width-1-1">Choose parameters</legend>
+
+  <div class="uk-margin uk-width-1-1 uk-text-center">
+    <label class="uk-form-label" for="form-stacked-select"
+      >Number of questions: {{ queryForm.value.numberOfQuests }}</label
+    >
+    <div class="uk-form-control">
+      <input
+        class="uk-range"
+        id="form-stacked-select"
+        type="range"
+        [value]="query.numberOfQuests"
+        min="1"
+        max="20"
+        step="1"
+        name="numberOfQuests"
+        formControlName="numberOfQuests"
+      />
+    </div>
+  </div>
+
+  <!-- =================================================================== -->
+  <!-- ! CATEGORY -->
+  <!-- =================================================================== -->
+  <div class="uk-margin uk-width-1-1 uk-text-center">
+    <label class="uk-form-label" for="form-horizontal-select">Category&nbsp;&nbsp;&nbsp;</label>
+    <div class="uk-form-control">
+      <select formControlName="category" id="form-horizontal-select" class="uk-select">
+        <option *ngFor="let category of categories" [ngValue]="category.value">
+          {{ category.text }}
+        </option>
+      </select>
+    </div>
+  </div>
+
+  <!-- ======================================================================= -->
+  <!-- ! DIFFICULTY -->
+  <!-- ======================================================================= -->
+  <div class="uk-margin uk-width-1-1 uk-text-center">
+    <label class="uk-form-label">Select difficulty </label>
+    <div class="uk-form-controls">
+      <label
+        ><input class="uk-radio" type="radio" value="any" formControlName="difficulty" />
+        Any&nbsp;&nbsp;&nbsp;
+      </label>
+      <label
+        ><input class="uk-radio" type="radio" value="easy" formControlName="difficulty" />
+        Easy&nbsp;&nbsp;&nbsp;
+      </label>
+      <label
+        ><input class="uk-radio" type="radio" value="medium" formControlName="difficulty" />
+        Medium&nbsp;&nbsp;&nbsp;
+      </label>
+      <label
+        ><input class="uk-radio" type="radio" value="hard" formControlName="difficulty" /> Hard
+      </label>
+    </div>
+  </div>
+
+  <!-- =================================================================== -->
+  <!-- ! TYPE -->
+  <!-- =================================================================== -->
+  <div class="uk-margin uk-width-1-1 uk-text-center">
+    <label class="uk-form-label">Select type </label>
+    <div class="uk-form-controls">
+      <label
+        ><input class="uk-radio" type="radio" value="any" formControlName="type" />
+        Any&nbsp;&nbsp;&nbsp;
+      </label>
+      <label
+        ><input class="uk-radio" type="radio" value="multiple" formControlName="type" /> Multiple&nbsp;&nbsp;&nbsp;
+      </label>
+      <label
+        ><input class="uk-radio" type="radio" value="boolean" formControlName="type" /> True /
+        False&nbsp;&nbsp;&nbsp;
+      </label>
+    </div>
+  </div>
+
+  <div class="uk-margin uk-width-1-1 uk-text-center">
+    <button class="uk-button uk-button-primary uk-width-1-1" type="submit">
+      Start!
+    </button>
+  </div>
+</form>
+
+<p>{{ queryForm.value | json }}</p>

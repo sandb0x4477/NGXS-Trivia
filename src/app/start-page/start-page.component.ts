@@ -1,10 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { NgForm, FormBuilder } from '@angular/forms';
 
 import { OpenTriviaService } from '../_services/open-trivia.service';
+import { Store, Select } from '@ngxs/store';
+import { PopulateQuestions } from '../store/trivia.actions';
 
 import { Query } from '../_models/query.model';
 import { Question } from '../_models/question.model';
+import { TriviaState } from '../store/trivia.state';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-start-page',
@@ -14,8 +18,16 @@ import { Question } from '../_models/question.model';
 export class StartPageComponent implements OnInit {
   query: Query;
   questions: Question[];
+  queryForm;
 
-  constructor(private triviaService: OpenTriviaService) {}
+  @Select(TriviaState.questions) questions$: Observable<Question[]>;
+  @Select(TriviaState.query) query$: Observable<Query>;
+
+  constructor(
+    private fb: FormBuilder,
+    private triviaService: OpenTriviaService,
+    private store: Store,
+  ) {}
 
   ngOnInit() {
     this.query = {
@@ -24,13 +36,19 @@ export class StartPageComponent implements OnInit {
       difficulty: 'any',
       type: 'any',
     };
+
   }
+
+  // createForm() {
+  //   this.queryForm = this.fb.group({
+
+  //   });
+  // }
 
   checkAnswer(question, i, j) {
     console.log('i', i);
     console.log('j', j);
-    const length = this.questions[i].buttonClass.length;
-    for (let k = 0; k < length; k++) {
+    for (let k = 0; k < this.questions[i].buttonClass.length; k++) {
       this.questions[i].buttonClass[k] = 'uk-button uk-button-default uk-width-1-1';
     }
     // if (j === question.correctAnswer_index) {
@@ -60,6 +78,7 @@ export class StartPageComponent implements OnInit {
       this.questions = this.parseText(response);
       this.fillQuestionsPool(this.questions);
       console.log('this.questions', this.questions);
+      this.store.dispatch(new PopulateQuestions(this.questions));
     });
   }
 
