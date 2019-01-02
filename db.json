@@ -15,42 +15,6 @@
       "question": "The term &quot;Spam&quot; came before the food product &quot;Spam&quot;.",
       "correct_answer": "False",
       "incorrect_answers": ["True"]
-    },
-    {
-      "category": "Science & Nature",
-      "type": "multiple",
-      "difficulty": "medium",
-      "question": "What term is best associated with Sigmund Freud?",
-      "correct_answer": "Psychoanalysis",
-      "incorrect_answers": [
-        "Cognitive-Behavioral Therapy",
-        "Theory of Gravity",
-        "Dialectical Behavior Therapy"
-      ]
-    },
-    {
-      "category": "Entertainment: Video Games",
-      "type": "multiple",
-      "difficulty": "medium",
-      "question": "Which of the following is not a playable race in the MMORPG Guild Wars 2? ",
-      "correct_answer": "Tengu",
-      "incorrect_answers": ["Sylvari", "Charr", "Asura "]
-    },
-    {
-      "category": "Celebrities",
-      "type": "multiple",
-      "difficulty": "easy",
-      "question": "What does film maker Dan Bell typically focus his films on?",
-      "correct_answer": "Abandoned Buildings and Dead Malls",
-      "incorrect_answers": ["Historic Landmarks", "Action Films", "Documentaries "]
-    },
-    {
-      "category": "Entertainment: Video Games",
-      "type": "multiple",
-      "difficulty": "hard",
-      "question": "In Guild Wars 2, what is the name of the Hylek&#039;s sun god?",
-      "correct_answer": "Zintl",
-      "incorrect_answers": ["Huelec", "Ameyalli", "Cueyatl"]
     }
   ]
 }

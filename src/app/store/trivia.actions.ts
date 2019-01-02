@@ -1,5 +1,6 @@
 import { Question } from '../_models/question.model';
 import { Query } from '../_models/query.model';
+import { Navigation } from '../_models/navigation.model';
 
 export class UpdateQuery {
   public static readonly type = '[Query] Update Query';
@@ -35,5 +36,18 @@ export class UpdateQuestion {
 
   constructor(public payload: Question) { }
 }
+
+export class ChangePage {
+  static readonly type = '[Navigation] Next Page';
+
+  constructor(public payload: number) { }
+}
+
+export class Finish {
+  static readonly type = '[Navigation] Finish';
+
+  constructor(public payload: any) { }
+}
+
 
 

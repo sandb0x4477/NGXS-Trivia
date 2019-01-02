@@ -1,33 +1,36 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { classToPlain } from 'class-transformer';
-import 'reflect-metadata';
+import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+
 import { Question } from '../_models/question.model';
+import { Navigation } from '../_models/navigation.model';
 
 @Component({
   selector: 'app-trivia-display',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './trivia-display.component.html',
   styles: [],
 })
 export class TriviaDisplayComponent implements OnInit {
   @Input() questions: Question[];
+  @Input() navigation: Navigation;
   @Output() buttonClick = new EventEmitter<any>();
+  @Output() changePageEm = new EventEmitter<number>();
+  @Output() finishEm = new EventEmitter<Question[]>();
 
   constructor() {}
 
   ngOnInit() {}
 
-  checkAnswer(question, i: number, j: number) {
-    const payload: any = JSON.parse(JSON.stringify(question));
+  checkAnswer(question, j) {
+    this.buttonClick.emit({ question, j });
+  }
 
-    payload.clickedButtonIndex = j;
+  changePage(page: number) {
+    // console.log('page', page);
+    this.changePageEm.emit(page);
+  }
 
-    for (let k = 0; k < payload.buttonClass.length; k++) {
-      payload.buttonClass[k] = 'uk-button uk-button-default uk-width-1-1';
-    }
-
-    payload.buttonClass.splice(j, 1, 'uk-button uk-button-secondary uk-width-1-1');
-    payload.isAnswered = true;
-
-    this.buttonClick.emit(payload);
+  finish() {
+    // console.log('this.questions', this.questions);
+    this.finishEm.emit(this.questions);
   }
 }

@@ -4,6 +4,7 @@ import {
   Input,
   EventEmitter,
   Output,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
@@ -12,6 +13,7 @@ import { CATEGORIES } from './categories';
 
 @Component({
   selector: 'app-query-form',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './query-form.component.html',
   styles: [],
 })

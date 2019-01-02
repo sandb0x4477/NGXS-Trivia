@@ -28,16 +28,16 @@ export class OpenTriviaService {
       query.type = '';
     }
 
-    const url = `${this.trviaURL}${query.numberOfQuests}&category=${query.category}&difficulty=${
-      query.difficulty
-    }&type=${query.type}`;
+    // const url = `${this.trviaURL}${query.numberOfQuests}&category=${query.category}&difficulty=${
+    //   query.difficulty
+    // }&type=${query.type}`;
     // console.log(url);
 
-    return this.http
-      .get<{ results: Question[] }>(url)
-      .pipe(map(response => response.results || []));
+    // return this.http
+    //   .get<{ results: Question[] }>(url)
+    //   .pipe(map(response => response.results || []));
 
-    // const url = this.jsonDbURL;
-    // return this.http.get<Question[]>(url);
+    const url = this.jsonDbURL;
+    return this.http.get<Question[]>(url);
   }
 }

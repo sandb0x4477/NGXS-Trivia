@@ -1,8 +1,6 @@
 import { State, Action, Selector, StateContext } from '@ngxs/store';
-import { classToPlain } from 'class-transformer';
-import 'reflect-metadata';
 import { asapScheduler } from 'rxjs';
-import { map, tap, filter } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 import {
   PopulateQuestions,
@@ -10,30 +8,41 @@ import {
   FetchQuestions,
   FetchQuestionsSuccess,
   UpdateQuestion,
+  ChangePage,
+  Finish
 } from './trivia.actions';
 import { Query } from '../_models/query.model';
 import { Question } from '../_models/question.model';
+import { Navigation } from '../_models/navigation.model';
 import { OpenTriviaService } from '../_services/open-trivia.service';
+import { Router } from '@angular/router';
 
 export interface TriviaStateModel {
   query: Query;
   questions: Question[];
+  navigation: Navigation;
 }
 
 @State<TriviaStateModel>({
   name: 'trivia',
   defaults: {
     query: {
-      numberOfQuests: 10,
+      numberOfQuests: 2,
       category: 'any',
       difficulty: 'any',
       type: 'any',
     },
     questions: [],
+    navigation: {
+      currentPage: 0,
+      totalPages: null,
+      isFinished: false,
+      score: 0,
+    },
   },
 })
 export class TriviaState {
-  constructor(private triviaService: OpenTriviaService) {}
+  constructor(private triviaService: OpenTriviaService, private router: Router) {}
 
   @Selector()
   public static getState(state: TriviaStateModel) {
@@ -44,9 +53,35 @@ export class TriviaState {
   public static query(state: TriviaStateModel): Query {
     return state.query;
   }
+
   @Selector()
   public static questions(state: TriviaStateModel): Question[] {
     return state.questions;
+  }
+
+  @Selector()
+  public static navigation(state: TriviaStateModel): Navigation {
+    return state.navigation;
+  }
+
+  @Action(ChangePage)
+  public changePage(
+    { getState, patchState }: StateContext<TriviaStateModel>,
+    { payload }: ChangePage,
+  ) {
+    patchState({
+      navigation: { ...getState().navigation, currentPage: payload },
+    });
+  }
+
+  @Action(Finish)
+  public finish(
+    { getState, patchState }: StateContext<TriviaStateModel>,
+    { payload }: Finish,
+  ) {
+    patchState({
+      navigation: { ...getState().navigation, isFinished: payload.isFinished, score: payload.score },
+    });
   }
 
   @Action(UpdateQuery)
@@ -115,7 +150,9 @@ export class TriviaState {
 
     patchState({
       questions: questions,
+      navigation: { currentPage: 0, totalPages: questions.length, isFinished: false, score: 0 },
     });
+    this.router.navigate(['/trivia']);
   }
 
   // =============================================================================
