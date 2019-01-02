@@ -8,7 +8,7 @@ export const CATEGORIES = [
   { value: '14', text: 'Entertainment: Television' },
   { value: '15', text: 'Entertainment: Video Games' },
   { value: '16', text: 'Entertainment: Board Games' },
-  { value: '17', text: 'Science &amp; Nature' },
+  { value: '17', text: 'Science & Nature' },
   { value: '18', text: 'Science: Computers' },
   { value: '19', text: 'Science: Mathematics' },
   { value: '20', text: 'Mythology' },

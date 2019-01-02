@@ -1,4 +1,4 @@
-<div *ngFor="let question of (questions$ | async); let i = index">
+<div *ngFor="let question of questions; let i = index">
   <h4 class="uk-text-center">{{ question.question }}</h4>
 
   <div class="uk-child-width-1-1@s uk-child-width-1-2@m uk-grid-small" uk-grid>

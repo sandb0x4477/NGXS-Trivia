@@ -16,34 +16,16 @@ import { Observable } from 'rxjs';
   styles: [],
 })
 export class StartPageComponent implements OnInit {
-  query: Query;
   questions: Question[];
-  queryForm;
 
   @Select(TriviaState.questions) questions$: Observable<Question[]>;
-  @Select(TriviaState.query) query$: Observable<Query>;
 
   constructor(
-    private fb: FormBuilder,
     private triviaService: OpenTriviaService,
     private store: Store,
   ) {}
 
-  ngOnInit() {
-    this.query = {
-      numberOfQuests: 5,
-      category: 'any',
-      difficulty: 'any',
-      type: 'any',
-    };
-
-  }
-
-  // createForm() {
-  //   this.queryForm = this.fb.group({
-
-  //   });
-  // }
+  ngOnInit() { }
 
   checkAnswer(question, i, j) {
     console.log('i', i);

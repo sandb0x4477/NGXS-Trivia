@@ -2,20 +2,19 @@
   class="uk-form-stacked uk-margin uk-grid"
   [formGroup]="queryForm"
   (ngSubmit)="onSubmit()"
-  *ngIf="(query$ | async) as query"
 >
   <legend class="uk-legend uk-text-primary uk-text-center uk-width-1-1">Choose parameters</legend>
 
   <div class="uk-margin uk-width-1-1 uk-text-center">
     <label class="uk-form-label" for="form-stacked-select"
-      >Number of questions: {{ queryForm.value.numberOfQuests }}</label
+      >Number of questions: {{ queryForm?.value.numberOfQuests }}</label
     >
     <div class="uk-form-control">
       <input
         class="uk-range"
         id="form-stacked-select"
         type="range"
-        [value]="query.numberOfQuests"
+        [value]="query?.numberOfQuests"
         min="1"
         max="20"
         step="1"

@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-qf-container',
+  selector: 'app-home',
   template: `
-    <p>
-      qf-container works!
-    </p>
+    <h2 class="uk-text-center">
+      Welcome to Trivia!
+    </h2>
   `,
   styles: []
 })
-export class QfContainerComponent implements OnInit {
+export class HomeComponent implements OnInit {
 
   constructor() { }
 

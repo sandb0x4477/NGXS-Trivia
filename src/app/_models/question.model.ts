@@ -1,4 +1,5 @@
 export interface Question {
+  id: number;
   category: string;
   type: string;
   difficulty: string;
