@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 import { Query } from '../_models/query.model';
 import { Question } from '../_models/question.model';
@@ -10,14 +10,13 @@ import { Question } from '../_models/question.model';
   providedIn: 'root',
 })
 export class OpenTriviaService {
-  jsonDbURL = 'http://localhost:3000/results';
+  // jsonDbURL = 'http://localhost:3000/results';
 
   trviaURL = 'https://opentdb.com/api.php?amount=';
 
   constructor(private http: HttpClient) {}
 
   getQuestions(query: Query): Observable<Question[]> {
-    // console.log('queryFromService', query);
     if (query.category === 'any') {
       query.category = '';
     }
@@ -28,16 +27,15 @@ export class OpenTriviaService {
       query.type = '';
     }
 
-    // const url = `${this.trviaURL}${query.numberOfQuests}&category=${query.category}&difficulty=${
-    //   query.difficulty
-    // }&type=${query.type}`;
-    // console.log(url);
+    const url = `${this.trviaURL}${query.numberOfQuests}&category=${query.category}&difficulty=${
+      query.difficulty
+    }&type=${query.type}`;
 
-    // return this.http
-    //   .get<{ results: Question[] }>(url)
-    //   .pipe(map(response => response.results || []));
+    return this.http
+      .get<{ results: Question[] }>(url)
+      .pipe(map(response => response.results || []));
 
-    const url = this.jsonDbURL;
-    return this.http.get<Question[]>(url);
+    // const url = this.jsonDbURL;
+    // return this.http.get<Question[]>(url);
   }
 }

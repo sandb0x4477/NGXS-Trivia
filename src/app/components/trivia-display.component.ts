@@ -1,4 +1,11 @@
-import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 
 import { Question } from '../_models/question.model';
 import { Navigation } from '../_models/navigation.model';
@@ -7,7 +14,14 @@ import { Navigation } from '../_models/navigation.model';
   selector: 'app-trivia-display',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './trivia-display.component.html',
-  styles: [],
+  styles: [
+    `
+     .disable {
+        cursor: not-allowed;
+        pointer-events: none;
+      }
+    `,
+  ],
 })
 export class TriviaDisplayComponent implements OnInit {
   @Input() questions: Question[];

@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 
@@ -21,7 +21,6 @@ import { Navigation } from '../_models/navigation.model';
   styles: [],
 })
 export class TriviaComponent implements OnInit {
-  // questions: Question[];
 
   @Select(TriviaState.questions) questions$: Observable<Question[]>;
   @Select(TriviaState.navigation) navigation$: Observable<Navigation>;
@@ -54,19 +53,19 @@ export class TriviaComponent implements OnInit {
     const isFinished = true;
 
     for (let i = 0; i < payload.length; i++) {
+      for (let k = 0; k < payload[i].buttonClass.length; k++) {
+        payload[i].buttonClass[k] = 'uk-button uk-button-default uk-width-1-1 disable';
+      }
       if (payload[i].clickedButtonIndex === payload[i].correctAnswer_index) {
-        payload[i].buttonClass[payload[i].clickedButtonIndex] = 'uk-button uk-button-primary uk-width-1-1';
+        payload[i].buttonClass[payload[i].clickedButtonIndex] = 'uk-button uk-button-primary uk-width-1-1 disable';
         score ++;
       } else {
-        payload[i].buttonClass[payload[i].clickedButtonIndex] = 'uk-button uk-button-danger uk-width-1-1';
-        payload[i].buttonClass[payload[i].correctAnswer_index] = 'uk-button uk-button-primary uk-width-1-1';
+        payload[i].buttonClass[payload[i].clickedButtonIndex] = 'uk-button uk-button-danger uk-width-1-1 disable';
+        payload[i].buttonClass[payload[i].correctAnswer_index] = 'uk-button uk-button-primary uk-width-1-1 disable';
       }
     }
 
-
-    console.log('payload', payload);
     this.store.dispatch( new Finish({isFinished, score}));
     this.store.dispatch( new PopulateQuestions(payload));
-    console.log('score', score);
   }
 }

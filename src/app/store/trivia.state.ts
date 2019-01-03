@@ -107,9 +107,6 @@ export class TriviaState {
   @Action(UpdateQuestion)
   public updateQuestion(ctx: StateContext<TriviaStateModel>, action: UpdateQuestion) {
     const state = ctx.getState();
-    // const question: any = classToPlain(action.payload);
-    // const question: any = action.payload;
-    // const questions = state.questions;
 
     ctx.patchState({
       questions: state.questions.map((item, index) => {
@@ -135,9 +132,6 @@ export class TriviaState {
           asapScheduler.schedule(() => dispatch(new FetchQuestionsSuccess(questions))),
         ),
       );
-    // return this.triviaService
-    //   .getQuestions(query)
-    //   .pipe(tap((questions: Question[]) => dispatch(new FetchQuestionsSuccess(questions))));
   }
 
   @Action(FetchQuestionsSuccess)
@@ -168,7 +162,6 @@ export class TriviaState {
       questions[i].questions_pool.splice(randomInt, 0, questions[i].correct_answer);
       questions[i].correctAnswer_index = randomInt;
       questions[i].isAnswered = false;
-      // questions[i].buttonClass.push('uk-button uk-button-default uk-width-1-1');
       for (let j = 0; j < questions[i].questions_pool.length; j++) {
         questions[i].buttonClass[j] = 'uk-button uk-button-default uk-width-1-1';
       }

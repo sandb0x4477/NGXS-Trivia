@@ -46,7 +46,7 @@ export class ChangePage {
 export class Finish {
   static readonly type = '[Navigation] Finish';
 
-  constructor(public payload: any) { }
+  constructor(public payload: Partial<Navigation>) { }
 }
 
 

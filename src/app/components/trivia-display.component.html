@@ -1,4 +1,7 @@
-<h4 class="uk-text-center"> Question {{ navigation.currentPage + 1}} of {{navigation.totalPages}}</h4>
+<div *ngIf="navigation.totalPages">
+  <h4 class="uk-text-center">
+    Question {{ navigation.currentPage + 1 }} of {{ navigation.totalPages }}
+  </h4>
 
   <h4 class="uk-text-center">{{ questions[navigation.currentPage].question }}</h4>
 
@@ -19,38 +22,48 @@
       </div>
     </div>
   </div>
-  <progress class="uk-progress" [value]="navigation.currentPage" [max]="navigation.totalPages - 1"></progress>
+  <progress
+    class="uk-progress"
+    [value]="navigation.currentPage"
+    [max]="navigation.totalPages - 1"
+  ></progress>
   <ul class="uk-pagination">
-      <li *ngIf="navigation.currentPage !== 0"><a (click)="changePage(navigation.currentPage - 1)"><span class="uk-margin-small-right" uk-pagination-previous></span> Previous</a></li>
-      <li *ngIf="navigation.currentPage !== navigation.totalPages - 1 && questions[navigation.currentPage].isAnswered" class="uk-margin-auto-left"><a (click)="changePage(navigation.currentPage + 1)" >Next <span class="uk-margin-small-left" uk-pagination-next></span></a></li>
-      <li *ngIf="navigation.currentPage === navigation.totalPages - 1 && questions[navigation.currentPage].isAnswered && !navigation.isFinished" class="uk-margin-auto-left"><a (click)="finish()" >Finish <span class="uk-margin-small-left" uk-pagination-next></span></a></li>
+    <li *ngIf="navigation.currentPage !== 0">
+      <a (click)="changePage(navigation.currentPage - 1)"
+        ><span class="uk-margin-small-right" uk-pagination-previous></span> Previous</a
+      >
+    </li>
+    <li
+      *ngIf="
+        navigation.currentPage !== navigation.totalPages - 1 &&
+        questions[navigation.currentPage].isAnswered
+      "
+      class="uk-margin-auto-left"
+    >
+      <a (click)="changePage(navigation.currentPage + 1)"
+        >Next <span class="uk-margin-small-left" uk-pagination-next></span
+      ></a>
+    </li>
+    <li
+      *ngIf="
+        navigation.currentPage === navigation.totalPages - 1 &&
+        questions[navigation.currentPage].isAnswered &&
+        !navigation.isFinished
+      "
+      class="uk-margin-auto-left"
+    >
+      <a (click)="finish()">Finish <span class="uk-margin-small-left" uk-pagination-next></span></a>
+    </li>
   </ul>
 
-<ng-container *ngIf="navigation.isFinished">
-  <h3 class="uk-text-center">You score is {{navigation.score}} out of {{navigation.totalPages}}</h3>
-</ng-container>
-
-
-<!-- <div *ngFor="let question of questions; let i = index">
-  <h4 class="uk-text-center">{{ question.question }}</h4>
-
-  <div class="uk-child-width-1-1@s uk-child-width-1-2@m uk-grid-small" uk-grid>
-    <div *ngFor="let pickButton of question.questions_pool; let j = index">
-      <div>
-        <p>
-          <button
-            #button
-            [ngClass]="question.buttonClass[j]"
-            value="{{ pickButton }}"
-            name="{{ pickButton }}"
-            (click)="checkAnswer(question, j)"
-          >
-            {{ pickButton }}
-          </button>
-        </p>
-      </div>
+  <ng-container *ngIf="navigation.isFinished">
+    <h3 class="uk-text-center">
+      You score is {{ navigation.score }} out of {{ navigation.totalPages }}
+    </h3>
+    <div class="uk-margin uk-width-1-1 uk-text-center">
+      <button class="uk-button uk-button-primary uk-width-1-1" [routerLink]="'/new'">
+        New Trivia!
+      </button>
     </div>
-  </div>
-
-  <hr class="uk-divider-icon" />
-</div> -->
+  </ng-container>
+</div>
