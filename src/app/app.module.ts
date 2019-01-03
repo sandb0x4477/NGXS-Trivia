@@ -10,7 +10,6 @@ import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
-import { StartPageComponent } from './start-page/start-page.component';
 import { OpenTriviaService } from './_services/open-trivia.service';
 
 import { TriviaState } from './store/trivia.state';
@@ -25,7 +24,6 @@ import { HomeComponent } from './containers/home.component';
   declarations: [
     AppComponent,
     NavbarComponent,
-    StartPageComponent,
     QueryFormComponent,
     QfContainerComponent,
     TriviaComponent,
