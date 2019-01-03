@@ -9,13 +9,14 @@ import {
   FetchQuestionsSuccess,
   UpdateQuestion,
   ChangePage,
-  Finish
+  Finish,
 } from './trivia.actions';
 import { Query } from '../_models/query.model';
 import { Question } from '../_models/question.model';
 import { Navigation } from '../_models/navigation.model';
 import { OpenTriviaService } from '../_services/open-trivia.service';
 import { Router } from '@angular/router';
+import { NgZone } from '@angular/core';
 
 export interface TriviaStateModel {
   query: Query;
@@ -42,7 +43,7 @@ export interface TriviaStateModel {
   },
 })
 export class TriviaState {
-  constructor(private triviaService: OpenTriviaService, private router: Router) {}
+  constructor(private triviaService: OpenTriviaService, private router: Router, private ngZone: NgZone) {}
 
   @Selector()
   public static getState(state: TriviaStateModel) {
@@ -75,12 +76,13 @@ export class TriviaState {
   }
 
   @Action(Finish)
-  public finish(
-    { getState, patchState }: StateContext<TriviaStateModel>,
-    { payload }: Finish,
-  ) {
+  public finish({ getState, patchState }: StateContext<TriviaStateModel>, { payload }: Finish) {
     patchState({
-      navigation: { ...getState().navigation, isFinished: payload.isFinished, score: payload.score },
+      navigation: {
+        ...getState().navigation,
+        isFinished: payload.isFinished,
+        score: payload.score,
+      },
     });
   }
 
@@ -118,20 +120,29 @@ export class TriviaState {
     });
   }
 
-  @Action(FetchQuestions)
+  @Action(FetchQuestions, { cancelUncompleted: true })
   public fetchQuestions(
     { getState, patchState, dispatch }: StateContext<TriviaStateModel>,
     action: FetchQuestions,
   ) {
     const query = Object.assign({}, action.payload);
 
-    return this.triviaService
-      .getQuestions(query)
-      .pipe(
-        map((questions: Question[]) =>
-          asapScheduler.schedule(() => dispatch(new FetchQuestionsSuccess(questions))),
-        ),
-      );
+    return this.triviaService.getQuestions(query).subscribe(
+      (questions: Question[]) => {
+        console.log('Success fetching data');
+        dispatch(new FetchQuestionsSuccess(questions));
+      },
+      error => {
+        console.log(error);
+      },
+    );
+    // return this.triviaService
+    //   .getQuestions(query)
+    //   .pipe(
+    //     map((questions: Question[]) =>
+    //       asapScheduler.schedule(() => dispatch(new FetchQuestionsSuccess(questions))),
+    //     ),
+    //   );
   }
 
   @Action(FetchQuestionsSuccess)
@@ -146,7 +157,8 @@ export class TriviaState {
       questions: questions,
       navigation: { currentPage: 0, totalPages: questions.length, isFinished: false, score: 0 },
     });
-    this.router.navigate(['/trivia']);
+    // this.router.navigateByUrl('trivia');
+    this.ngZone.run(() => this.router.navigate(['/trivia'])).then();
   }
 
   // =============================================================================
